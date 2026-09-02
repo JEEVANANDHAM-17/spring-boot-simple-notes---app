@@ -44,6 +44,14 @@ mvn spring-boot:run
 
 The app will start running at <http://localhost:8080>.
 
+## Render demo deployment
+
+The repository includes a Dockerfile and `render.yaml` for a free Render demo.
+The `render` Spring profile uses an in-memory H2 database so no database
+credentials are committed. Demo notes reset whenever the free service restarts.
+
+API documentation is available at `/swagger-ui.html` after deployment.
+
 ## Explore Rest APIs
 
 The app defines following CRUD APIs.
