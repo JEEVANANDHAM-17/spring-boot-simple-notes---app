@@ -1,69 +1,106 @@
-# Spring Boot, MySQL, JPA, Hibernate Rest API Tutorial
+# Easy Notes
 
-Build Restful CRUD API for a simple Note-Taking application using Spring Boot, Mysql, JPA and Hibernate.
+A full-stack notes workspace built for a portfolio: a responsive React interface backed by a Spring Boot REST API, JPA, and MySQL. The app supports creating, reading, searching, sorting, editing, and deleting notes, with clear loading, empty, and error states.
 
-## Requirements
+## Stack
 
-1. Java - 25.0.x
+- **Frontend:** React 18, Vite, Lucide icons, responsive CSS
+- **Backend:** Java 11+, Spring Boot, Spring Web, Spring Data JPA, Bean Validation
+- **Data:** MySQL locally; ephemeral H2 for the Render demo profile
+- **API docs:** Springdoc OpenAPI / Swagger UI
+- **Deployment:** Multi-stage Docker build and Render Blueprint
 
-2. Maven - 3.x.x
+## Run locally
 
-3. Mysql - 8.x.x
+### 1. Start the API
 
-## Steps to Setup
+Create the MySQL database:
 
-**1. Clone the application**
-
-```bash
-git clone https://github.com/callicoder/spring-boot-mysql-rest-api-tutorial.git
+```sql
+CREATE DATABASE easy_notes;
 ```
 
-**2. Create Mysql database**
-```bash
-create database notes_app
+Set your MySQL password (and override the username or URL if needed), then run:
+
+```powershell
+$env:DB_PASSWORD="your-mysql-password"
 ```
 
-**3. Change mysql username and password as per your installation**
+```bash
+./mvnw spring-boot:run
+```
 
-+ open `src/main/resources/application.properties`
+On Windows PowerShell:
 
-+ change `spring.datasource.username` and `spring.datasource.password` as per your mysql installation
+```powershell
+.\mvnw.cmd spring-boot:run
+```
 
-**4. Build and run the app using maven**
+The API runs at `http://localhost:8080`.
+
+### 2. Start React
+
+In a second terminal:
 
 ```bash
-mvn package
+cd frontend
+npm install
+npm run dev
+```
+
+Open `http://localhost:5173`. Vite proxies `/api` requests to Spring Boot, so no extra local configuration is needed.
+
+## Production build
+
+Build React first, then package Spring Boot. Maven copies `frontend/dist` into the JAR's static resources:
+
+```bash
+cd frontend
+npm ci
+npm run build
+cd ..
+./mvnw clean package
 java -jar target/easy-notes-1.0.0.jar
 ```
 
-Alternatively, you can run the app without packaging it using -
+The production UI and API are both served from `http://localhost:8080`.
+
+You can also build the complete application in one step with Docker:
 
 ```bash
-mvn spring-boot:run
+docker build -t easy-notes .
+docker run --rm -p 8080:8080 -e SPRING_PROFILES_ACTIVE=render easy-notes
 ```
 
-The app will start running at <http://localhost:8080>.
+## API
 
-## Render demo deployment
+| Method | Endpoint | Purpose |
+| --- | --- | --- |
+| `GET` | `/api/health` | Service health check |
+| `GET` | `/api/notes` | List all notes |
+| `POST` | `/api/notes` | Create a note |
+| `GET` | `/api/notes/{id}` | Get one note |
+| `PUT` | `/api/notes/{id}` | Update a note |
+| `DELETE` | `/api/notes/{id}` | Delete a note |
 
-The repository includes a Dockerfile and `render.yaml` for a free Render demo.
-The `render` Spring profile uses an in-memory H2 database so no database
-credentials are committed. Demo notes reset whenever the free service restarts.
+Create and update requests use this shape:
 
-API documentation is available at `/swagger-ui.html` after deployment.
+```json
+{
+  "title": "Portfolio launch",
+  "content": "Write the case study and publish the project."
+}
+```
 
-## Explore Rest APIs
+Swagger UI is available at `http://localhost:8080/swagger-ui.html`.
 
-The app defines following CRUD APIs.
+## Configuration
 
-    GET /api/notes
-    
-    POST /api/notes
-    
-    GET /api/notes/{noteId}
-    
-    PUT /api/notes/{noteId}
-    
-    DELETE /api/notes/{noteId}
+- `VITE_API_URL`: full API origin when the frontend is deployed separately. Leave empty for the same-origin production build.
+- `CORS_ALLOWED_ORIGINS`: comma-separated frontend origins allowed to call the API directly. Defaults to `http://localhost:5173`.
+- `DB_URL`, `DB_USERNAME`, and `DB_PASSWORD`: local MySQL connection settings. No database password is stored in the repository.
+- `SPRING_PROFILES_ACTIVE=render`: uses an in-memory H2 database for a credential-free demo. Notes reset when the service restarts.
 
-You can test them using postman or any other rest client.
+## Deploy on Render
+
+Create a new Blueprint from this repository. `render.yaml` builds the React frontend and Spring Boot API together using the included Dockerfile, then serves the finished app as one web service. The demo profile starts with three sample notes so reviewers can explore the UI immediately.

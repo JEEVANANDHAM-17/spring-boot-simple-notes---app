@@ -1,8 +1,16 @@
+FROM node:22-alpine AS frontend-build
+WORKDIR /frontend
+COPY frontend/package*.json ./
+RUN npm ci
+COPY frontend ./
+RUN npm run build
+
 FROM maven:3.9.11-eclipse-temurin-17 AS build
 WORKDIR /app
 COPY pom.xml .
 RUN mvn -B -DskipTests dependency:go-offline
 COPY src ./src
+COPY --from=frontend-build /frontend/dist ./frontend/dist
 RUN mvn -B -DskipTests clean package
 
 FROM eclipse-temurin:17-jre
