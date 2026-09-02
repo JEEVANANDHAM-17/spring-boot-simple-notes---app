@@ -3,6 +3,8 @@ target/
 frontend/node_modules/
 frontend/dist/
 frontend/.env.local
+.env
+.env.local
 
 ### STS ###
 .apt_generated
