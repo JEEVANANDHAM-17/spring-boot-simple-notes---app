@@ -63,45 +63,49 @@ export function NoteEditor({ note, isOpen, isSaving, onClose, onSave }) {
         </div>
 
         <form className="editor__form" onSubmit={handleSubmit}>
-          <div className="editor__intro">
-            <span className="eyebrow">{note ? 'Edit note' : 'New note'}</span>
-            <h2 id="editor-title">{note ? 'Refine your thought.' : 'Capture it while it’s fresh.'}</h2>
-            <p>Your changes are saved to the Spring Boot API.</p>
+          <div className="editor__body">
+            <div className="editor__intro">
+              <span className="eyebrow">{note ? 'Edit note' : 'New note'}</span>
+              <h2 id="editor-title">{note ? 'Refine your thought.' : 'Capture it while it’s fresh.'}</h2>
+              <p>Your changes are saved to the Spring Boot API.</p>
+            </div>
+
+            <label className="field">
+              <span>Title</span>
+              <input
+                ref={titleRef}
+                name="title"
+                value={form.title}
+                onChange={updateField}
+                placeholder="A clear, memorable title"
+                maxLength={120}
+                aria-invalid={Boolean(errors.title)}
+              />
+              <span className="field__meta">
+                <span className="field__error">{errors.title}</span>
+                <span>{form.title.length}/120</span>
+              </span>
+            </label>
+
+            <label className="field field--grow">
+              <span>Note</span>
+              <textarea
+                name="content"
+                value={form.content}
+                onChange={updateField}
+                placeholder="Start writing…"
+                aria-invalid={Boolean(errors.content)}
+              />
+              <span className="field__error">{errors.content}</span>
+            </label>
           </div>
 
-          <label className="field">
-            <span>Title</span>
-            <input
-              ref={titleRef}
-              name="title"
-              value={form.title}
-              onChange={updateField}
-              placeholder="A clear, memorable title"
-              maxLength={120}
-              aria-invalid={Boolean(errors.title)}
-            />
-            <span className="field__meta">
-              <span className="field__error">{errors.title}</span>
-              <span>{form.title.length}/120</span>
-            </span>
-          </label>
-
-          <label className="field field--grow">
-            <span>Note</span>
-            <textarea
-              name="content"
-              value={form.content}
-              onChange={updateField}
-              placeholder="Start writing…"
-              aria-invalid={Boolean(errors.content)}
-            />
-            <span className="field__error">{errors.content}</span>
-          </label>
-
-          <button className="primary-button editor__save" type="submit" disabled={isSaving}>
-            {isSaving ? <LoaderCircle className="spin" size={18} /> : <Save size={18} />}
-            {isSaving ? 'Saving…' : note ? 'Save changes' : 'Create note'}
-          </button>
+          <div className="editor__actions">
+            <button className="primary-button editor__save" type="submit" disabled={isSaving}>
+              {isSaving ? <LoaderCircle className="spin" size={18} /> : <Save size={18} />}
+              {isSaving ? 'Saving…' : note ? 'Save changes' : 'Create note'}
+            </button>
+          </div>
         </form>
       </aside>
     </div>
