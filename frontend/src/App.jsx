@@ -6,16 +6,25 @@ import {
   Check,
   Feather,
   Menu,
+  Moon,
   Plus,
   RefreshCw,
   Search,
   Sparkles,
+  Sun,
   X,
 } from 'lucide-react'
 import { notesApi } from './api/notes.js'
 import { Brand } from './components/Brand.jsx'
 import { NoteCard } from './components/NoteCard.jsx'
 import { NoteEditor } from './components/NoteEditor.jsx'
+
+const THEME_STORAGE_KEY = 'easy-notes-theme'
+
+function getInitialTheme() {
+  const savedTheme = window.localStorage.getItem(THEME_STORAGE_KEY)
+  return savedTheme === 'light' || savedTheme === 'dark' ? savedTheme : 'dark'
+}
 
 export default function App() {
   const [notes, setNotes] = useState([])
@@ -28,6 +37,16 @@ export default function App() {
   const [saving, setSaving] = useState(false)
   const [toast, setToast] = useState('')
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [theme, setTheme] = useState(getInitialTheme)
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme
+    document.querySelector('meta[name="theme-color"]')?.setAttribute(
+      'content',
+      theme === 'dark' ? '#18191c' : '#f4f1ea',
+    )
+    window.localStorage.setItem(THEME_STORAGE_KEY, theme)
+  }, [theme])
 
   const loadNotes = useCallback(async () => {
     setLoading(true)
@@ -170,6 +189,15 @@ export default function App() {
               </button>
             )}
           </div>
+          <button
+            className="icon-button theme-toggle"
+            type="button"
+            onClick={() => setTheme((current) => (current === 'dark' ? 'light' : 'dark'))}
+            aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+            title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+          >
+            {theme === 'dark' ? <Sun size={19} /> : <Moon size={19} />}
+          </button>
           <button className="primary-button topbar__create" type="button" onClick={openNewNote}>
             <Plus size={18} />
             New note

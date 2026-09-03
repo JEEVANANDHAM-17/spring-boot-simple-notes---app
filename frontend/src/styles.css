@@ -16,6 +16,20 @@
   --sidebar: #24262a;
 }
 
+[data-theme='dark'] {
+  color: #f3efe7;
+  background: #18191c;
+  color-scheme: dark;
+  --ink: #f3efe7;
+  --muted: #aaa69e;
+  --paper: #18191c;
+  --white: #242529;
+  --line: #3b3c42;
+  --violet: #a58aff;
+  --violet-dark: #b69fff;
+  --sidebar: #101114;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -346,6 +360,10 @@ select:focus-visible {
 
 .icon-button--danger:hover {
   color: #bb4b47;
+}
+
+.theme-toggle {
+  flex: 0 0 auto;
 }
 
 .page {
@@ -877,6 +895,191 @@ select:focus-visible {
   background: var(--white);
 }
 
+[data-theme='dark'] .topbar {
+  border-bottom-color: rgba(72, 73, 80, 0.78);
+  background: rgba(24, 25, 28, 0.92);
+}
+
+[data-theme='dark'] .search-box,
+[data-theme='dark'] .sort-control {
+  color: #aaa7a1;
+  background: #222327;
+}
+
+[data-theme='dark'] .search-box input::placeholder {
+  color: #85858b;
+}
+
+[data-theme='dark'] .search-box button,
+[data-theme='dark'] .sort-control,
+[data-theme='dark'] .sort-control select {
+  color: #bbb8b1;
+}
+
+[data-theme='dark'] .icon-button {
+  color: #cbc8c1;
+  background: rgba(255, 255, 255, 0.09);
+}
+
+[data-theme='dark'] .icon-button:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.16);
+}
+
+[data-theme='dark'] .icon-button--danger:hover {
+  color: #ff9185;
+}
+
+[data-theme='dark'] .page-heading h1 {
+  color: #f3efe7;
+}
+
+[data-theme='dark'] .page-heading h1 em {
+  color: #f08d74;
+}
+
+[data-theme='dark'] .note-count {
+  border-color: #555158;
+}
+
+[data-theme='dark'] .note-count::before {
+  border-color: #454249;
+}
+
+[data-theme='dark'] .note-count p {
+  color: #aaa69e;
+}
+
+[data-theme='dark'] .note-card {
+  border-color: rgba(255, 255, 255, 0.08);
+  color: var(--ink);
+}
+
+[data-theme='dark'] .note-card:hover {
+  box-shadow: 0 17px 38px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme='dark'] .note-card--violet {
+  --card-accent: #a58aff;
+  background: #302b42;
+}
+
+[data-theme='dark'] .note-card--coral {
+  --card-accent: #f08069;
+  background: #3b2928;
+}
+
+[data-theme='dark'] .note-card--gold {
+  --card-accent: #e3b84e;
+  background: #393322;
+}
+
+[data-theme='dark'] .note-card--teal {
+  --card-accent: #61b8aa;
+  background: #223836;
+}
+
+[data-theme='dark'] .note-card__date,
+[data-theme='dark'] .note-card__label {
+  color: rgba(243, 239, 231, 0.62);
+}
+
+[data-theme='dark'] .note-card__body p {
+  color: rgba(243, 239, 231, 0.76);
+}
+
+[data-theme='dark'] .note-card__footer {
+  border-top-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme='dark'] .new-note-card {
+  border-color: #4b4b51;
+  color: #aaa69e;
+}
+
+[data-theme='dark'] .new-note-card:hover {
+  border-color: #8f7bd1;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+[data-theme='dark'] .new-note-card > span,
+[data-theme='dark'] .state-panel--empty .state-panel__icon {
+  background: #30294a;
+}
+
+[data-theme='dark'] .new-note-card strong {
+  color: #e8e3da;
+}
+
+[data-theme='dark'] .note-skeleton {
+  background: linear-gradient(100deg, #242529 20%, #303136 40%, #242529 60%);
+  background-size: 200% 100%;
+}
+
+[data-theme='dark'] .state-panel {
+  border-color: #48484e;
+}
+
+[data-theme='dark'] .state-panel__icon {
+  color: #ff9185;
+  background: #472b2c;
+}
+
+[data-theme='dark'] .footer {
+  color: #96938d;
+}
+
+[data-theme='dark'] .footer span:first-child {
+  color: #83b897;
+}
+
+[data-theme='dark'] .editor-backdrop {
+  background: rgba(0, 0, 0, 0.66);
+}
+
+[data-theme='dark'] .editor {
+  box-shadow: -25px 0 70px rgba(0, 0, 0, 0.42);
+}
+
+[data-theme='dark'] .editor__header,
+[data-theme='dark'] .editor__actions {
+  border-color: #404147;
+}
+
+[data-theme='dark'] .editor__back {
+  color: #aaa7a1;
+}
+
+[data-theme='dark'] .field {
+  color: #c3bfb7;
+}
+
+[data-theme='dark'] .field input,
+[data-theme='dark'] .field textarea {
+  border-color: #47484e;
+  color: var(--ink);
+  background: #1d1e22;
+}
+
+[data-theme='dark'] .field input[aria-invalid='true'],
+[data-theme='dark'] .field textarea[aria-invalid='true'] {
+  border-color: #e17e73;
+}
+
+[data-theme='dark'] .field__meta {
+  color: #85858b;
+}
+
+[data-theme='dark'] .field__error {
+  color: #ef8f84;
+}
+
+[data-theme='dark'] .toast {
+  color: #20201f;
+  background: #f3efe7;
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.38);
+}
+
 .toast {
   position: fixed;
   z-index: 70;
@@ -968,6 +1171,10 @@ select:focus-visible {
   .menu-button {
     flex: 0 0 auto;
     background: #e9e4da;
+  }
+
+  [data-theme='dark'] .menu-button {
+    background: #303137;
   }
 
   .search-box {
